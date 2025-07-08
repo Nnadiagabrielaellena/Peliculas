@@ -8,18 +8,38 @@ import {
   TextField,
   IconButton,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+
+const API_KEY = '7c7eaf93f4bdd728a68f7a22f2138a1a'; // Usá tu clave real
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = async (e) => {
     e.preventDefault();
+
     if (searchTerm.trim()) {
-      window.location.href = `/buscar?q=${searchTerm}`;
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=es-ES&query=${encodeURIComponent(
+            searchTerm
+          )}`
+        );
+        const data = await res.json();
+
+        if (data.results && data.results.length > 0) {
+          const firstMatch = data.results[0];
+          navigate(`/pelicula/${firstMatch.id}`);
+        } else {
+          alert('No se encontró ninguna película con ese nombre');
+        }
+      } catch (error) {
+        console.error('Error al buscar película:', error);
+      }
     }
   };
 
@@ -40,11 +60,12 @@ const Header = () => {
         <Button color="inherit" component={Link} to="/">Home</Button>
         <Button color="inherit" component={Link} to="/populares">Populares</Button>
         <Button color="inherit" component={Link} to="/mejores-puntuadas">Mejor Puntuadas</Button>
+
         <form onSubmit={handleSearchSubmit} style={{ display: 'flex', alignItems: 'center' }}>
           <TextField
             value={searchTerm}
             onChange={handleSearchChange}
-            label="Buscar películas"
+            label=""
             variant="outlined"
             size="small"
             sx={{ backgroundColor: 'white', borderRadius: '4px', ml: 2 }}
@@ -59,3 +80,4 @@ const Header = () => {
 };
 
 export default Header;
+
