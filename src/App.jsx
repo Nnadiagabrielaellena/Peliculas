@@ -17,6 +17,7 @@ export default function App() {
         <Route path="/ultimos-lanzamientos" element={<UltimosLanzamientos />} />
         <Route path="/pelicula/:id" element={<DetallePelicula />} />
         <Route path="/pelicula/:id" element={<DetallePelicula />} />
+        <Route path="/pelicula/:id" element={<DetallePelicula />} />
       </Routes>
     </Router>
   );
