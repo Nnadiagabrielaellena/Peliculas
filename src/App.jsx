@@ -6,6 +6,7 @@ import UltimosLanzamientos from "./pages/UltimosLanzamientos";
 import DetallePelicula from "./pages/DetallePelicula";
 import Header from "./components/Header";
 
+
 export default function App() {
   return (
     <Router>

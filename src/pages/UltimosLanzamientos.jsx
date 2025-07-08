@@ -1,4 +1,3 @@
-// src/pages/UltimosLanzamientos.jsx
 import React from "react";
 import { useMovies } from "../context/MovieContext";
 import {
