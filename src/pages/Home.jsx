@@ -9,13 +9,27 @@ import {
   CardContent,
   CircularProgress,
   Box,
+  IconButton,
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  const { populares, mejoresPuntuadas, cargando } = useMovies();
+  const {
+    populares,
+    mejoresPuntuadas,
+    cargando,
+    toggleFavorito,
+    esFavorito,
+  } = useMovies();
 
-  if (cargando) return <Box textAlign="center" mt={5}><CircularProgress /></Box>;
+  if (cargando)
+    return (
+      <Box textAlign="center" mt={5}>
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Box p={3}>
@@ -44,6 +58,20 @@ export default function Home() {
                       <Typography variant="body1" align="center">
                         {peli.title}
                       </Typography>
+                      <Box display="flex" justifyContent="center">
+                        <IconButton
+                          onClick={(e) => {
+                            e.preventDefault(); // Evita redirigir al hacer clic en el corazón
+                            toggleFavorito(peli);
+                          }}
+                        >
+                          {esFavorito(peli.id) ? (
+                            <FavoriteIcon color="error" />
+                          ) : (
+                            <FavoriteBorderIcon />
+                          )}
+                        </IconButton>
+                      </Box>
                     </CardContent>
                   </Card>
                 </Link>
@@ -72,6 +100,20 @@ export default function Home() {
                       <Typography variant="body1" align="center">
                         {peli.title}
                       </Typography>
+                      <Box display="flex" justifyContent="center">
+                        <IconButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleFavorito(peli);
+                          }}
+                        >
+                          {esFavorito(peli.id) ? (
+                            <FavoriteIcon color="error" />
+                          ) : (
+                            <FavoriteBorderIcon />
+                          )}
+                        </IconButton>
+                      </Box>
                     </CardContent>
                   </Card>
                 </Link>
